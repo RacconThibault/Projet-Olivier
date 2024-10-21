@@ -4,10 +4,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config");
+const userRouter = require("./routes/user");
 
 mongoose
   .connect(
-    `mongodb+srv://${config.mongoUser}:${config.mongoSecret}@cluster0.f28s5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+    `mongodb+srv://${config.mongoUser}:${config.mongoSecret}@cluster0.f28s5.mongodb.net/projet-olivier?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(
     () => {
@@ -21,20 +22,10 @@ mongoose
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use("/users", userRouter);
+
 const port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.get("/admin", (req, res) => {
-  res.send("Hello Admin!");
-});
-
-app.post("/admin", (req, res) => {
-  console.log(req.body);
-  res.send("POST request to the homepage");
-});
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
